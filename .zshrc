@@ -7,18 +7,16 @@ fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=/Users/ryan/workspace/paths/chromedriver:$PATH
+export PATH="$HOME/workspace/paths/chromedriver:$PATH"
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/ryan/.oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k" 
 
-export SPARKPOST_API_KEY="579a081174b5faa07ed6606fd2f64a423759f917"
 export FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g ""'
-export TOOLCHAINS=swift
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -64,7 +62,6 @@ export TOOLCHAINS=swift
 plugins=(git rails ruby)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.nvm/nvm.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -73,11 +70,11 @@ source ~/.nvm/nvm.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='mvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -89,7 +86,8 @@ source ~/.nvm/nvm.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
+
+# CUSTOM ALIASES
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias wow="git status"
@@ -117,6 +115,7 @@ alias rid="ps aux | ag 3000"
 alias please="sudo"
 alias vimplugins="cd ~/.vim_runtime/my_plugins"
 
+# DEFAULT TO NVIM IF NVIM IS IN PLACE
 if type nvim > /dev/null 2>&1; then
   alias vim='nvim'
 fi
@@ -133,25 +132,38 @@ vterm_printf(){
     fi
 }
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+# FNM
+eval "$(fnm env --use-on-cd)"
+_fnm_autoload_hook () {
+    if [[ -f .node-version || -f .nvmrc ]]; then
+        fnm use
+    else
+        fnm use default
+    fi
+}
+add-zsh-hook chpwd _fnm_autoload_hook \
+    && _fnm_autoload_hook
 
-# RVM
+rehash
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-
+# DUNNO WHAT IS THIS
 ulimit -n 32768
+
+# ITERM
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 export TERM="xterm-256color"
 
+# Solves angular build npm issues
 export NODE_OPTIONS="--max-old-space-size=12000"
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+
+# RVM
 export PATH="$PATH:$HOME/.rvm/bin"
-export PATH=$PATH:/Users/ryan/Downloads/platform-tools/
+
+# Elasticsearch
 export PATH="/usr/local/opt/elasticsearch-full/bin:$PATH"
+
+# EMACS
 export PATH="$HOME/.emacs.d/bin:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export YVM_DIR=/usr/local/opt/yvm
-[ -r $YVM_DIR/yvm.sh ] && . $YVM_DIR/yvm.sh
