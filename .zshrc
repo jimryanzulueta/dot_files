@@ -165,5 +165,7 @@ export PATH="/usr/local/opt/elasticsearch-full/bin:$PATH"
 # EMACS
 export PATH="$HOME/.emacs.d/bin:$PATH"
 
+alias python="/opt/homebrew/bin/python3.9"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
